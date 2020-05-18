@@ -1,5 +1,7 @@
 package com.ocr.axa.jlp.paymybuddy.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +15,15 @@ public class UserServiceImpl implements UserService {
     UserDAO userDAO;
 
     @Override
-    public User save(User user) {
+    public User create(User user) {
        
-        return userDAO.create(user);
+        return userDAO.save(user);
+    }
+
+    @Override
+    public List<User> findAll() {
+        
+        return userDAO.findAll();
     }
 
 }

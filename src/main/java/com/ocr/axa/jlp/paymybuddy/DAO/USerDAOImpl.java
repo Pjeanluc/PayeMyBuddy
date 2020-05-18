@@ -1,5 +1,7 @@
 package com.ocr.axa.jlp.paymybuddy.DAO;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,10 +14,18 @@ public class USerDAOImpl implements UserDAO {
     UserRepository userRepository;
 
     @Override
-    public User create(User user) {
+    public User save(User user) {
 
-       userRepository.save(user);
-        return null;
+        userRepository.save(user);
+
+        User userAdded = userRepository.findUserByEmail(user.getEmail());
+        return userAdded;
+    }
+
+    @Override
+    public List<User> findAll() {
+
+        return userRepository.findAll();
     }
 
 }

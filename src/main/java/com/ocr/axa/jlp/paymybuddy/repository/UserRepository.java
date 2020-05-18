@@ -9,5 +9,7 @@ import com.ocr.axa.jlp.paymybuddy.model.User;
 @Transactional
 public interface UserRepository extends JpaRepository<User, Integer>{
     
+    User findUserByEmail(String email);
+    
     
 }

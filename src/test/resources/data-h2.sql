@@ -1,0 +1,1 @@
+INSERT INTO user VALUES (0,'test','test','test@free.fr','password','pseudo');
