@@ -20,7 +20,7 @@ import com.ocr.axa.jlp.paymybuddy.web.exceptions.ControllerException;
 
 
 @RestController
-public class generalController {
+public class GeneralController {
     private static final Logger logger = LogManager.getLogger("generalController");
     
     @Autowired
@@ -35,7 +35,7 @@ public class generalController {
     }
     
     @PostMapping("/userInfo")
-    public ResponseEntity<String> createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@RequestBody User user) {
       
 
         if (user.getEmail().isEmpty()) {
@@ -57,7 +57,7 @@ public class generalController {
         
         logger.info("Add user OK " + user.toString());
         User userAdded = userService.create(user); 
-        return new ResponseEntity("Add user : OK",HttpStatus.OK);
+        return new ResponseEntity(userAdded,HttpStatus.OK);
     }
 
 }
