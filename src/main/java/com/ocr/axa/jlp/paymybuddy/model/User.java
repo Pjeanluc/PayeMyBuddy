@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull
     private Long id;
 
@@ -36,7 +36,7 @@ public class User {
     @NotNull
     private String lastname;
 
-    @Column(unique = true,length=100)
+    @Column(unique = true, name = "email")
     @Email
     @NotNull
     private String email;
@@ -58,7 +58,7 @@ public class User {
     @OneToMany(mappedBy = "user",fetch=FetchType.LAZY)
     private List<Transfer> transfers;
     
-    @OneToOne(mappedBy = "user",fetch=FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.PERSIST, mappedBy = "user",fetch=FetchType.LAZY)
     private Account account;
 
     public Long getId() {

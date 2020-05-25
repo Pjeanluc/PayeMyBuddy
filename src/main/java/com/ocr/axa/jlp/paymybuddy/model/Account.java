@@ -1,6 +1,8 @@
 package com.ocr.axa.jlp.paymybuddy.model;
 
 import java.math.BigDecimal;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -31,7 +32,7 @@ public class Account {
     @NotNull
     private BigDecimal balance;
     
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
     @JoinColumn(name="user_id",foreignKey = @ForeignKey(name = "fk_account_user"))
     private User user;
     

@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ocr.axa.jlp.paymybuddy.model.User;
-import com.ocr.axa.jlp.paymybuddy.service.UserService;
+import com.ocr.axa.jlp.paymybuddy.repository.UserRepository;
+import com.ocr.axa.jlp.paymybuddy.service.CreateService;
 import com.ocr.axa.jlp.paymybuddy.web.exceptions.ControllerException;
 
 
@@ -24,7 +25,10 @@ public class GeneralController {
     private static final Logger logger = LogManager.getLogger("generalController");
     
     @Autowired
-    UserService userService;
+    UserRepository userRepository;
+    
+    @Autowired
+    CreateService userService;
     
     @GetMapping(path = "/all")
     @ResponseBody
@@ -53,6 +57,10 @@ public class GeneralController {
         if (user.getPassword().isEmpty()) {
             logger.error("inscriptionPerson : KO");
             throw new ControllerException("passeword is required");
+        }
+        if (userRepository.existsByEmail(user.getEmail())) {
+            logger.error("Email already exist");
+            throw new ControllerException("email already exist");
         }
         
         logger.info("Add user OK " + user.toString());

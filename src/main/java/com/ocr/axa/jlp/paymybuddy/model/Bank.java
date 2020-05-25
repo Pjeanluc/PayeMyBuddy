@@ -2,6 +2,7 @@ package com.ocr.axa.jlp.paymybuddy.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,15 +25,15 @@ public class Bank {
     @NotNull
     private Long id;
 
-    @Column(length=100,nullable = false)
+    @Column(length=100)
     private String nameBank;
 
     @Column(length=100)
     @NotNull
     private String bicCode;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="user_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_bank_user"))
+    @ManyToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    @JoinColumn(name="user_id", foreignKey = @ForeignKey(name = "fk_bank_user"))
     private User user;
     
     @OneToMany(mappedBy = "bank",fetch=FetchType.LAZY)
