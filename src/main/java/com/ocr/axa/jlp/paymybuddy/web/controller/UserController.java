@@ -16,30 +16,35 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ocr.axa.jlp.paymybuddy.model.User;
 import com.ocr.axa.jlp.paymybuddy.repository.UserRepository;
+import com.ocr.axa.jlp.paymybuddy.service.ConnectionService;
 import com.ocr.axa.jlp.paymybuddy.service.CreateService;
 import com.ocr.axa.jlp.paymybuddy.web.exceptions.ControllerException;
 
 
 @RestController
-public class GeneralController {
+@RequestMapping(path = "/user")
+public class UserController {
     private static final Logger logger = LogManager.getLogger("generalController");
     
     @Autowired
     UserRepository userRepository;
     
     @Autowired
-    CreateService userService;
+    CreateService createService;
+    
+    @Autowired
+    ConnectionService connectionService;
     
     @GetMapping(path = "/all")
     @ResponseBody
     public List<User> getAllUsers() {
-        List<User> usersFound = userService.findAll();
+        List<User> usersFound = createService.findAll();
         logger.info(" get all user : OK");
         return usersFound;
     }
     
     @PostMapping("/userInfo")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<Long> createUser(@RequestBody User user) {
       
 
         if (user.getEmail().isEmpty()) {
@@ -64,8 +69,30 @@ public class GeneralController {
         }
         
         logger.info("Add user OK " + user.toString());
-        User userAdded = userService.create(user); 
-        return new ResponseEntity(userAdded,HttpStatus.OK);
+        Long idUserAdded = createService.create(user); 
+        return new ResponseEntity(idUserAdded,HttpStatus.OK);
+    }
+    
+    @GetMapping("/connect")
+    public ResponseEntity<Boolean> connectUser(@RequestBody User user) {
+      
+
+        if (user.getEmail().isEmpty()) {
+            logger.error("inscriptionPerson : KO");
+            throw new ControllerException("email is required");
+        }
+        if (user.getPassword().isEmpty()) {
+            logger.error("inscriptionPerson : KO");
+            throw new ControllerException("password is required");
+        }
+        
+        if (connectionService.connectUser(user)) {
+            logger.info("Connect user OK " + user.toString());
+            return new ResponseEntity(true,HttpStatus.OK);
+        } else {
+            logger.error("Connect user KO " + user.toString());
+            throw new ControllerException("user/password not exist");
+        }
     }
 
 }

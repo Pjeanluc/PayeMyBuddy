@@ -16,10 +16,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @Entity
-@JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
 @Table(name = "user")
 public class User {
 

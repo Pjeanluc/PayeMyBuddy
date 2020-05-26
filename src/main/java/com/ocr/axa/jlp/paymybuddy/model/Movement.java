@@ -19,10 +19,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @Entity
-@JsonIgnoreProperties(value = { "createdAt", "updatedAt" }, allowGetters = true)
 @Table(name = "Movement")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Movement {

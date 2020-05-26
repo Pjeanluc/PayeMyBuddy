@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ocr.axa.jlp.paymybuddy.DAO.AccountDAO;
@@ -25,20 +26,22 @@ public class CreateServiceImpl implements CreateService {
     
     @Autowired
     AccountDAO accountDAO;
+    
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Override
-    public User create(User user) {
+    public Long create(User user) {
 
         Account account = new Account();
         account.setCurrency(954);
         BigDecimal b = new BigDecimal(0.00);
         account.setBalance(b);
-        account.setUser(user);
-        
-        User userAdded = userDAO.save(user);
+        account.setUser(user);        
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        if (accountDAO.save(account)) {
-            return userAdded;
+        if (accountDAO.save(account) > 0) {
+            return account.getUser().getId();
         } else
             return null;
     }

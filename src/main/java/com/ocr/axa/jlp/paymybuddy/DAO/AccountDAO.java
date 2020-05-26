@@ -4,6 +4,6 @@ import com.ocr.axa.jlp.paymybuddy.model.Account;
 
 public interface AccountDAO {
     
-    public Boolean save(Account account);
+    public Long save(Account account);
 
 }

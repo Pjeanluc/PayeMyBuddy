@@ -16,16 +16,16 @@ public class AccountDAOImpl implements AccountDAO {
     AccountRepository accountRepository;
 
     @Override
-    public Boolean save(Account account) {
+    public Long save(Account account) {
 
         try {
             accountRepository.save(account);
         } catch (Exception e) {
             logger.error("creation account KO");
-            return false;
+            return 0L;
         }
         logger.info("creation account OK");
-        return true;
+        return account.getId();
     }
 
 }

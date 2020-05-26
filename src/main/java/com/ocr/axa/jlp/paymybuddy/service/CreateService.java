@@ -6,7 +6,7 @@ import com.ocr.axa.jlp.paymybuddy.model.User;
 
 public interface CreateService {
     
-    public User create(User user);
+    public Long create(User user);
 
     public List<User> findAll();
 
