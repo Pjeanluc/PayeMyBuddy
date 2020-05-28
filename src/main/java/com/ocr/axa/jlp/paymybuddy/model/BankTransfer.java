@@ -17,4 +17,14 @@ public class BankTransfer extends Movement {
     @JoinColumn(name="bank_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_banktransfert_bank"))
     private Bank bank;
 
+    public Bank getBank() {
+        return bank;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+    
+    
+
 }

@@ -1,6 +1,7 @@
 package com.ocr.axa.jlp.paymybuddy.web.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,38 +15,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ocr.axa.jlp.paymybuddy.model.Bank;
 import com.ocr.axa.jlp.paymybuddy.model.User;
-import com.ocr.axa.jlp.paymybuddy.repository.UserRepository;
 import com.ocr.axa.jlp.paymybuddy.service.ConnectionService;
-import com.ocr.axa.jlp.paymybuddy.service.CreateService;
+import com.ocr.axa.jlp.paymybuddy.service.UserService;
 import com.ocr.axa.jlp.paymybuddy.web.exceptions.ControllerException;
-
 
 @RestController
 @RequestMapping(path = "/user")
 public class UserController {
     private static final Logger logger = LogManager.getLogger("generalController");
-    
+
     @Autowired
-    UserRepository userRepository;
-    
-    @Autowired
-    CreateService createService;
-    
+    UserService userService;
+
     @Autowired
     ConnectionService connectionService;
-    
+
     @GetMapping(path = "/all")
     @ResponseBody
     public List<User> getAllUsers() {
-        List<User> usersFound = createService.findAll();
+        List<User> usersFound = userService.findAll();
         logger.info(" get all user : OK");
         return usersFound;
     }
     
+    @GetMapping
+    @ResponseBody
+    public User getUser(@RequestBody User user) {
+        User userFound = userService.findUser(user);
+        logger.info(" get user : OK");
+        return userFound;
+    }
+
     @PostMapping("/userInfo")
-    public ResponseEntity<Long> createUser(@RequestBody User user) {
-      
+    public ResponseEntity<User> createUser(@RequestBody User user) {
 
         if (user.getEmail().isEmpty()) {
             logger.error("inscriptionPerson : KO");
@@ -63,19 +67,15 @@ public class UserController {
             logger.error("inscriptionPerson : KO");
             throw new ControllerException("passeword is required");
         }
-        if (userRepository.existsByEmail(user.getEmail())) {
-            logger.error("Email already exist");
-            throw new ControllerException("email already exist");
-        }
-        
+
+        User userAdded = userService.create(user);
         logger.info("Add user OK " + user.toString());
-        Long idUserAdded = createService.create(user); 
-        return new ResponseEntity(idUserAdded,HttpStatus.OK);
+        
+        return new ResponseEntity(userAdded, HttpStatus.OK);
     }
-    
+
     @GetMapping("/connect")
     public ResponseEntity<Boolean> connectUser(@RequestBody User user) {
-      
 
         if (user.getEmail().isEmpty()) {
             logger.error("inscriptionPerson : KO");
@@ -85,14 +85,71 @@ public class UserController {
             logger.error("inscriptionPerson : KO");
             throw new ControllerException("password is required");
         }
-        
+
         if (connectionService.connectUser(user)) {
             logger.info("Connect user OK " + user.toString());
-            return new ResponseEntity(true,HttpStatus.OK);
+            return new ResponseEntity(true, HttpStatus.OK);
         } else {
             logger.error("Connect user KO " + user.toString());
             throw new ControllerException("user/password not exist");
         }
     }
 
+    @PostMapping("/createbank")
+    public ResponseEntity<Bank> createBank(@RequestBody Bank bank) {
+
+        if (bank.getUser().getEmail().isEmpty()) {
+            logger.error("create bank : KO");
+            throw new ControllerException("email is required");
+        }
+        
+        if (bank.getBicCode().isEmpty()) {
+            logger.error("create bank : KO");
+            throw new ControllerException("Code bank is required");
+        }
+
+        Bank bankAdded = userService.createBank(bank);
+        logger.info("create bank OK ");
+        return new ResponseEntity(bankAdded, HttpStatus.OK);
+    }
+
+    @GetMapping("/bank")
+    public ResponseEntity<List<Bank>> getAllBankForUser(@RequestBody Bank bank) {
+
+        if (bank.getUser().getEmail().isEmpty()) {
+            logger.error("get bank : KO");
+            throw new ControllerException("email is required");
+        }
+
+        List<Bank> banks = userService.findAllBankByUser(bank);
+        logger.info("get bank OK ");
+        return new ResponseEntity(banks, HttpStatus.OK);
+    }
+    
+    @PostMapping("/createbuddy")
+    public ResponseEntity<User> createBuddy(@RequestBody User user) {
+
+        if (user.getEmail().isEmpty()) {
+            logger.error("create buddy : KO");
+            throw new ControllerException("email is required");
+        }
+
+        User userUpdated = userService.createBuddy(user);
+        logger.info("create bank OK ");
+        return new ResponseEntity(userUpdated, HttpStatus.OK);
+    }
+    
+    @GetMapping("/buddy")
+    public ResponseEntity<List<User>> getAllBuddyForUser(@RequestBody User user) {
+
+        if (user.getEmail().isEmpty()) {
+            logger.error("get buddy : KO");
+            throw new ControllerException("email is required");
+        }
+
+        List<User> buddys = userService.findAllBuddyByUser(user);
+        logger.info("get buddy OK ");
+        
+        return new ResponseEntity(buddys, HttpStatus.OK);
+    }
 }

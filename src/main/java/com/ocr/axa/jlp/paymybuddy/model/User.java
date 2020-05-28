@@ -106,4 +106,12 @@ public class User {
         this.pseudo = pseudo;
     }
 
+    public List<User> getBuddies() {
+        return buddies;
+    }
+
+    public void setBuddies(List<User> buddies) {
+        this.buddies = buddies;
+    }
+
 }

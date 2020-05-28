@@ -7,12 +7,21 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "payment")
+@Table(name = "credit")
 @PrimaryKeyJoinColumn(name = "id")
-public class Payment extends Movement {
+public class Credit extends Movement {
 
     @Column(length = 100)
     @NotNull
     private String transactionID;
 
+    public String getTransactionID() {
+        return transactionID;
+    }
+
+    public void setTransactionID(String transactionID) {
+        this.transactionID = transactionID;
+    }
+
+    
 }
