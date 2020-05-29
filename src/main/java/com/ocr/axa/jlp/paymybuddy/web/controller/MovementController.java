@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ocr.axa.jlp.paymybuddy.model.BankTransfer;
 import com.ocr.axa.jlp.paymybuddy.model.Credit;
+import com.ocr.axa.jlp.paymybuddy.model.Transfer;
 import com.ocr.axa.jlp.paymybuddy.service.MovementService;
 import com.ocr.axa.jlp.paymybuddy.web.exceptions.ControllerException;
 
@@ -25,6 +26,11 @@ public class MovementController {
     @Autowired
     MovementService movementService;
 
+    /**
+     * 
+     * @param credit
+     * @return credit added
+     */
     @PostMapping("/credit")
     public ResponseEntity<Credit> creditAccount(@RequestBody Credit credit) {
 
@@ -49,6 +55,11 @@ public class MovementController {
         }
     }
 
+    /**
+     * 
+     * @param bankTransfer
+     * @return bankTransfer created
+     */
     @PostMapping("/banktransfer")
     public ResponseEntity<BankTransfer> bankTransfert(@RequestBody BankTransfer bankTransfer) {
 
@@ -77,4 +88,36 @@ public class MovementController {
         }
     }
 
+    /**
+     * 
+     * @param transfer
+     * @return transfer created
+     */
+    @PostMapping("/payment")
+    public ResponseEntity<Transfer> paymentBuddy(@RequestBody Transfer transfer) {
+
+        if (transfer.getAccount().getUser().getEmail().isEmpty()) {
+            logger.error("transfer buddy : KO, Account email is required");
+            throw new ControllerException("Account email is required");
+        }
+
+        if (transfer.getUser().getEmail().isEmpty()) {
+            logger.error("transfer buddy : KO, buddy email is required");
+            throw new ControllerException("buddy email is required");
+        }
+        if (transfer.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
+            logger.error("transfer buddy : KO, amount nul or negative");
+            throw new ControllerException("amount nul or negative");
+        }
+
+        Transfer transferAdded = movementService.createTransfer(transfer);
+        if (transferAdded == null) {
+            logger.error("transfer buddy : KO");
+            throw new ControllerException("transfer buddy : KO");
+
+        } else {
+            logger.info("transfer buddy OK ");
+            return new ResponseEntity(transferAdded, HttpStatus.OK);
+        }
+    }
 }

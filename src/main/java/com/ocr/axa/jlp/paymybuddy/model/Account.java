@@ -32,7 +32,7 @@ public class Account {
     @NotNull
     private BigDecimal balance;
     
-    @OneToOne(cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     @JoinColumn(name="user_id",foreignKey = @ForeignKey(name = "fk_account_user"))
     private User user;
     

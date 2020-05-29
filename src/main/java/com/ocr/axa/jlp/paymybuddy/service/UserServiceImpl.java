@@ -48,15 +48,11 @@ public class UserServiceImpl implements UserService {
             account.setBalance(b);
             account.setUser(user);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-            if (accountDAO.save(account) != null) {
-                userCreated = account.getUser();
-            } else {
-                logger.error("Creationa ccount KO");
-            }
+            userCreated = account.getUser();
         } else {
             logger.error("Email already exist");
         }
+
         return userCreated;
     }
 

@@ -32,6 +32,11 @@ public class UserController {
     @Autowired
     ConnectionService connectionService;
 
+    /**
+     * 
+     * @return List ok all USER
+     */
+    
     @GetMapping(path = "/all")
     @ResponseBody
     public List<User> getAllUsers() {
@@ -40,6 +45,11 @@ public class UserController {
         return usersFound;
     }
     
+    /**
+     * 
+     * @param user (email)
+     * @return information for the user
+     */
     @GetMapping
     @ResponseBody
     public User getUser(@RequestBody User user) {
@@ -48,6 +58,11 @@ public class UserController {
         return userFound;
     }
 
+    /**
+     * 
+     * @param user (firstname, lastname, email, password required)
+     * @return user created
+     */
     @PostMapping("/userInfo")
     public ResponseEntity<User> createUser(@RequestBody User user) {
 
@@ -74,6 +89,11 @@ public class UserController {
         return new ResponseEntity(userAdded, HttpStatus.OK);
     }
 
+   /**
+    * 
+    * @param user (email and password)
+    * @return ok si user/password are matching
+    */
     @GetMapping("/connect")
     public ResponseEntity<Boolean> connectUser(@RequestBody User user) {
 
@@ -95,6 +115,11 @@ public class UserController {
         }
     }
 
+    /**
+     * 
+     * @param bank (code BIC and email of the user)
+     * @return bank created
+     */
     @PostMapping("/createbank")
     public ResponseEntity<Bank> createBank(@RequestBody Bank bank) {
 
@@ -113,6 +138,11 @@ public class UserController {
         return new ResponseEntity(bankAdded, HttpStatus.OK);
     }
 
+    /**
+     * 
+     * @param bank (email of the user)
+     * @return list of the bank for this user
+     */
     @GetMapping("/bank")
     public ResponseEntity<List<Bank>> getAllBankForUser(@RequestBody Bank bank) {
 
@@ -126,6 +156,11 @@ public class UserController {
         return new ResponseEntity(banks, HttpStatus.OK);
     }
     
+    /**
+     * 
+     * @param user (email and buddy)
+     * @return user updated
+     */
     @PostMapping("/createbuddy")
     public ResponseEntity<User> createBuddy(@RequestBody User user) {
 
@@ -139,6 +174,11 @@ public class UserController {
         return new ResponseEntity(userUpdated, HttpStatus.OK);
     }
     
+    /**
+     * 
+     * @param user (email)
+     * @return list of all buddy for this user
+     */
     @GetMapping("/buddy")
     public ResponseEntity<List<User>> getAllBuddyForUser(@RequestBody User user) {
 

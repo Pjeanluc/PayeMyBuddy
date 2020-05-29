@@ -15,6 +15,11 @@ public class ConnectionServiceImpl implements ConnectionService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    /**
+     * 
+     * @param user (email/password)
+     * @return true if  matching, else false
+     */
     @Override
     public boolean connectUser(User user) {
         User userToConnect = userDAO.findByEmail(user.getEmail());

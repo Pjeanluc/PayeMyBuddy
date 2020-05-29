@@ -35,6 +35,9 @@ public class Movement {
 
     @Column(columnDefinition = "Decimal(8,2)", nullable = false)
     private BigDecimal amount;
+    
+    @Column(length = 1, nullable = false)
+    private String sens;
 
     @Column(length = 100)
     @NotNull
@@ -62,8 +65,7 @@ public class Movement {
             this.dateMovement = null;
         } else {
             this.dateMovement = new Date(dateMovement.getTime());
-        }
-        this.dateMovement = dateMovement;
+        }   
     }
 
     public BigDecimal getAmount() {
@@ -88,6 +90,14 @@ public class Movement {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public String getSens() {
+        return sens;
+    }
+
+    public void setSens(String sens) {
+        this.sens = sens;
     }
 
 }

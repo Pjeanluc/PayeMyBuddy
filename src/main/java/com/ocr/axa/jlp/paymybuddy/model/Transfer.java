@@ -23,4 +23,21 @@ public class Transfer extends Movement {
     @JoinColumn(name="buddy_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_transfer_user"))
     private User user;
 
+    public BigDecimal getFees() {
+        return fees;
+    }
+
+    public void setFees(BigDecimal fees) {
+        this.fees = fees;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    
 }
