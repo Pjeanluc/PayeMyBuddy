@@ -48,6 +48,7 @@ public class UserServiceImpl implements UserService {
             account.setBalance(b);
             account.setUser(user);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
+            accountDAO.save(account);
             userCreated = account.getUser();
         } else {
             logger.error("Email already exist");
@@ -73,7 +74,7 @@ public class UserServiceImpl implements UserService {
             logger.error("create bank : KO, user not exist");
             throw new ControllerException("create bank : KO, user not exist");
         }
-
+        logger.error("create bank : OK");
         return bank;
     }
 

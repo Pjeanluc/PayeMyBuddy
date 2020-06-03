@@ -58,6 +58,21 @@ public class User {
     @OneToOne(cascade = CascadeType.PERSIST, mappedBy = "user",fetch=FetchType.LAZY)
     private Account account;
 
+    
+    public User() {
+        super();
+    }
+
+    public User(@NotNull String firstname, @NotNull String lastname, @Email @NotNull String email,
+            @NotNull String password, @NotNull String pseudo) {
+        super();
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.pseudo = pseudo;
+    }
+
     public Long getId() {
         return id;
     }

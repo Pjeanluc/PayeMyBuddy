@@ -1,8 +1,6 @@
 package com.ocr.axa.jlp.paymybuddy.web.controller;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +32,7 @@ public class UserController {
 
     /**
      * 
-     * @return List ok all USER
+     * @return List of all USER
      */
     
     @GetMapping(path = "/all")
@@ -170,7 +168,7 @@ public class UserController {
         }
 
         User userUpdated = userService.createBuddy(user);
-        logger.info("create bank OK ");
+        logger.info("create buddy OK ");
         return new ResponseEntity(userUpdated, HttpStatus.OK);
     }
     
