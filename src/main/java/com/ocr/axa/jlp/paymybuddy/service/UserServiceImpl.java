@@ -2,8 +2,6 @@ package com.ocr.axa.jlp.paymybuddy.service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
-
 import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
@@ -39,9 +37,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
-        User userCreated = new User();
+       
 
         if (!userDAO.existsByEmail(user.getEmail())) {
+            User userCreated = new User();;
             Account account = new Account();
             account.setCurrency(954);
             BigDecimal b = new BigDecimal(0.00);
@@ -50,11 +49,12 @@ public class UserServiceImpl implements UserService {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             accountDAO.save(account);
             userCreated = account.getUser();
+            
+            return userCreated;
         } else {
             logger.error("Email already exist");
+            return null;
         }
-
-        return userCreated;
     }
 
     @Override

@@ -82,9 +82,17 @@ public class UserController {
         }
 
         User userAdded = userService.create(user);
-        logger.info("Add user OK " + user.toString());
         
-        return new ResponseEntity(userAdded, HttpStatus.OK);
+        if (userAdded == null) {
+            logger.error("inscriptionPerson : KO");
+            throw new ControllerException("email already exist");
+        }
+        else {
+            logger.info("Add user OK " + user.toString());
+            return new ResponseEntity(userAdded, HttpStatus.OK);
+        }
+      
+        
     }
 
    /**

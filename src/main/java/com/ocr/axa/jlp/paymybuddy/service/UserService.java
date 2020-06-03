@@ -1,8 +1,6 @@
 package com.ocr.axa.jlp.paymybuddy.service;
 
 import java.util.List;
-import java.util.Optional;
-
 import com.ocr.axa.jlp.paymybuddy.model.Bank;
 import com.ocr.axa.jlp.paymybuddy.model.User;
 

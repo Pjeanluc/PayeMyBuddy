@@ -1,15 +1,11 @@
 package com.ocr.axa.jlp.paymybuddy.Controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.mockito.ArgumentMatchers.any;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -30,7 +26,6 @@ import com.ocr.axa.jlp.paymybuddy.model.Credit;
 import com.ocr.axa.jlp.paymybuddy.model.Transfer;
 import com.ocr.axa.jlp.paymybuddy.model.User;
 import com.ocr.axa.jlp.paymybuddy.service.MovementService;
-import com.ocr.axa.jlp.paymybuddy.service.UserService;
 import static com.ocr.axa.jlp.paymybuddy.Controller.UserControllerTest.asJsonString;
 
 @SpringBootTest
