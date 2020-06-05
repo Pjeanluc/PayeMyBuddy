@@ -1,12 +1,11 @@
 package com.ocr.axa.jlp.paymybuddy.DAO;
 
-import javax.transaction.Transactional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.ocr.axa.jlp.paymybuddy.model.User;
 
-@Transactional
+@Repository
 public interface UserDAO  extends JpaRepository<User, Long>{
        
     public User findByEmail(String email);

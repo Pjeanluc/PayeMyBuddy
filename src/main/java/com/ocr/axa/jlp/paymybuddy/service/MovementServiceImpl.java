@@ -101,7 +101,7 @@ public class MovementServiceImpl implements MovementService {
 
         if (!bankDAO.existsById(bankTransfer.getBank().getId())) {
             logger.error("bank transfer : KO, bank not exist");
-            throw new ControllerException("bank transfert : KO, bank not exist");
+            throw new ControllerException("bank transfer : KO, bank not exist");
         }
 
         User userMovement = userDAO.findByEmail(bankTransfer.getAccount().getUser().getEmail());
@@ -114,7 +114,7 @@ public class MovementServiceImpl implements MovementService {
             newBalance = newBalance.add(accountMovement.getBalance());
             if (newBalance.compareTo(bankTransfer.getAmount()) < 0) {
                 logger.error("bank transfer : KO, amount too big");
-                throw new ControllerException("bank transfert : KO, amount too big");
+                throw new ControllerException("bank transfer : KO, amount too big");
             }
             newBalance = newBalance.subtract(bankTransfer.getAmount());
             accountMovement.setBalance(newBalance);
@@ -134,7 +134,7 @@ public class MovementServiceImpl implements MovementService {
 
         } else {
             logger.error("bank transfer : KO, user not exist");
-            throw new ControllerException("bank transfert : KO, user not exist");
+            throw new ControllerException("bank transfer : KO, user not exist");
 
         }
 
@@ -231,8 +231,8 @@ public class MovementServiceImpl implements MovementService {
             return transferCreated;
 
         } else {
-            logger.error("bank transfer : KO, user not exist");
-            throw new ControllerException("bank transfert : KO, user not exist");
+            logger.error("buddy transfer : KO, user not exist");
+            throw new ControllerException("buddy transfer : KO, user not exist");
 
         }
 

@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
        
 
         if (!userDAO.existsByEmail(user.getEmail())) {
-            User userCreated = new User();;
+            
             Account account = new Account();
             account.setCurrency(954);
             BigDecimal b = new BigDecimal(0.00);
@@ -48,9 +48,8 @@ public class UserServiceImpl implements UserService {
             account.setUser(user);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             accountDAO.save(account);
-            userCreated = account.getUser();
             
-            return userCreated;
+            return account.getUser();
         } else {
             logger.error("Email already exist");
             return null;
