@@ -24,6 +24,53 @@ class movementTestIT {
     @Autowired
     private MockMvc mockMvc;
 
+    
+    /**
+     * 
+     * Test : creation a movement of credit
+     */
+    @Test
+    public void createCreditTest() throws Exception {
+
+        // GIVEN
+
+        String questionBody = "{" + 
+                "\"account\":{\"user\":{\"email\": \"usertest@test.com\"}}," + 
+                "\"transactionID\":\"transactiontest\"," + 
+                "\"amount\": 10.00," + 
+                "\"typeCredit\":\"External\"," + 
+                "\"comment\": \"credit\"" + 
+                "}";
+        
+        // WHEN
+        // THEN
+        this.mockMvc
+                .perform(post("/movement/credit").content(questionBody).contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print()).andExpect(status().isOk());
+
+    }
+    
+    @Test
+    public void createBankTransferTest() throws Exception {
+
+        // GIVEN
+
+        String questionBody = "{" + 
+                "\"account\":{\"user\":{\"email\": \"usertest@test.com\"}}," + 
+                "\"bank\":{\"id\":\"1\"}," + 
+                "\"amount\": 1.00," + 
+                "\"comment\": \"bank transfer\"" + 
+                "}";
+        
+        // WHEN
+        // THEN
+        this.mockMvc
+                .perform(post("/movement/banktransfer").content(questionBody).contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print()).andExpect(status().isOk());
+
+    }
     /**
      * 
      * Test : creation a movement of transfer
