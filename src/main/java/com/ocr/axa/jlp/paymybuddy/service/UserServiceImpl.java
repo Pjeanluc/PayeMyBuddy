@@ -1,7 +1,10 @@
 package com.ocr.axa.jlp.paymybuddy.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
@@ -37,10 +40,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
-       
 
         if (!userDAO.existsByEmail(user.getEmail())) {
-            
+
             Account account = new Account();
             account.setCurrency(954);
             BigDecimal b = new BigDecimal(0.00);
@@ -48,7 +50,7 @@ public class UserServiceImpl implements UserService {
             account.setUser(user);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             accountDAO.save(account);
-            
+
             return account.getUser();
         } else {
             logger.error("Email already exist");
@@ -90,7 +92,20 @@ public class UserServiceImpl implements UserService {
         User userToUpdate = userDAO.findByEmail(user.getEmail());
 
         if (userToUpdate != null) {
-            userToUpdate.setBuddies(user.getBuddies());
+            List<User> listOfBuddy = userToUpdate.getBuddies();
+            List<User> listBuddyToAdd = user.getBuddies();
+
+            for (User p : listBuddyToAdd) {
+                Optional<User> buddyToAdd = userDAO.findById(p.getId());
+                if ((buddyToAdd.isPresent()) && (!p.getId().equals(userToUpdate.getId()))) {
+                    if (!listOfBuddy.contains(buddyToAdd.get())) {
+                        listOfBuddy.add(buddyToAdd.get());
+                    }
+                }
+            }
+            
+            userToUpdate.setBuddies(listOfBuddy);
+
         } else {
             logger.error("create buddy : KO, user not exist");
             throw new ControllerException("create buddy : KO, user not exist");

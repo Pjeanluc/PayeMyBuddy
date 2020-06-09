@@ -72,8 +72,10 @@ public class MovementServiceImpl implements MovementService {
                 if (credit.getTypeCredit().isEmpty()) {
                     credit.setTypeCredit("External");
                 }
+            } else {
+                credit.setTypeCredit("External");
             }
-
+            
             Credit creditCreated = movementDAO.save(credit);
 
             return creditCreated;
